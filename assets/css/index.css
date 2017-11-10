@@ -1,0 +1,107 @@
+@charset "UTF-8";
+/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {
+    background-color: #fff;
+    border-color: #bf1616;
+    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);
+}*/
+.lt-full {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0; }
+
+.zmiti-text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  -webkit-text-overflow: ellipsis; }
+
+html, body, div, p, ul, li, ol, dl, dt, dd, header, footer, video, h1, h2, h3, h4, canvas, section, figure {
+  padding: 0;
+  margin: 0; }
+
+a {
+  text-decoration: none; }
+
+li {
+  list-style: none; }
+
+html, body {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: "Helvetica Neue", 'Helvetica', "Microsoft YaHei", '微软雅黑', arial, sans-serif;
+  overflow-x: hidden;
+  font-size: 14px; }
+
+img {
+  border: none;
+  vertical-align: middle;
+  width: 100%;
+  height: auto; }
+
+.clearfix {
+  clear: both; }
+
+input, textarea {
+  outline: none; }
+
+.zmiti-loading {
+  background: #8e101c;
+  color: #f2eb80;
+  z-index: 1100; }
+  .zmiti-loading .zmiti-loading-bar {
+    width: 7rem;
+    position: absolute;
+    top: 48%;
+    left: 1.5rem;
+    height: 4px;
+    border-radius: 2px;
+    border: 1px solid #f2eb80;
+    padding: 1px; }
+    .zmiti-loading .zmiti-loading-bar span {
+      position: absolute;
+      width: 0;
+      height: 4px;
+      background: #f2eb80;
+      border-radius: 1px; }
+    .zmiti-loading .zmiti-loading-bar label {
+      position: relative;
+      top: -20px;
+      left: 0; }
+      .zmiti-loading .zmiti-loading-bar label .dang {
+        width: 1rem;
+        display: block;
+        position: relative;
+        top: -.4rem; }
+
+#zmiti-main-ui {
+  width: 100%;
+  height: 100%; }
+
+#zmiti-map-C {
+  width: 100%;
+  height: 100%; }
+
+.zmiti-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  left: 0;
+  top: 0;
+  z-index: 15800; }
+  .zmiti-mask.tip-bottom img {
+    position: absolute;
+    left: 0;
+    bottom: 0; }
+
+@media all and (min-height: 603px) and (min-width: 375px) {
+  .zmiti-main-ui .zmiti-index-page .zmiti-index-text {
+    bottom: 2.9rem; } }
+
+/*# sourceMappingURL=index.css.map */

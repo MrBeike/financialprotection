@@ -1,0 +1,127 @@
+﻿@import './base.scss';
+
+html, body, div, p, ul, li, ol, dl, dt, dd, header, footer, video, h1, h2, h3, h4, canvas, section, figure {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+html, body {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: "Helvetica Neue", 'Helvetica', "Microsoft YaHei", '微软雅黑', arial, sans-serif;
+  overflow-x: hidden;
+  font-size: 14px;
+}
+
+img {
+  border: none;
+  vertical-align: middle;
+  width: 100%;
+  height: auto;
+}
+
+.clearfix {
+  clear: both;
+}
+
+input, textarea {
+  outline: none;
+}
+
+$viewW: 10rem;
+
+.zmiti-loading {
+  background: #8e101c;
+  color: #f2eb80;
+  z-index: 1100;
+
+  .zmiti-loading-bar {
+    width: 7rem;
+    @include pos(a);
+    top: 48%;
+    left: 1.5rem;
+    height: 4px;
+    @include br(2px);
+    border: 1px solid #f2eb80;
+    padding: 1px;
+
+    span {
+      @include pos(a);
+      width: 0;
+      height: 4px;
+      background: #f2eb80;
+      @include br(1px);
+    }
+
+    label {
+      @include pos(r);
+      top: -20px;
+      left: 0;
+
+      .dang {
+        width: 1rem;
+        display: block;
+        @include pos(r);
+        top: -.4rem;
+      }
+
+    }
+
+  }
+
+}
+
+#zmiti-main-ui {
+  width: 100%;
+  height: 100%;
+}
+
+#zmiti-map-C {
+  width: 100%;
+  height: 100%;
+}
+
+.zmiti-mask {
+  @include pos(a);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .7);
+  display: none;
+  left: 0;
+  top: 0;
+  z-index: 15800;
+
+  &.tip-bottom {
+    img {
+      @include pos(a);
+      left: 0;
+      bottom: 0;
+    }
+
+  }
+
+}
+
+@media all and (min-height:603px) and (min-width:375px) {
+  .zmiti-main-ui {
+    .zmiti-index-page {
+      .zmiti-index-text {
+        bottom: 2.9rem;
+      }
+
+    }
+
+  }
+
+}
