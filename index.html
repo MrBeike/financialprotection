@@ -5,7 +5,7 @@
 	<meta id="meta" name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
 	<meta name="format-detection" content="telephone=no,email=no" />
 	<link rel="stylesheet" type="text/css" href="./assets/css/index.css">
-	<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+	<!-- <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/> -->
 	<script>
 		document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.clientWidth / 10 + 'px'
 	</script>
@@ -23,15 +23,34 @@
 	</div>
 
 	<div id="zmiti-main-ui">
+		<zmiti-header>
+			<span>北京市</span>
+			<img src="./assets/images/ar.png" alt="">
+		</zmiti-header>
+		<div class="zmiti-title">
+			<span>消保地点</span>
+			<img src="./assets/images/title.png" />
+		</div>
+
+		<div class="zmiti-pos">
+			<img src="./assets/images/position.png" alt="">
+		</div>
+		<div class="zmiti-list-btn">
+			<img src="./assets/images/list-btn.png" alt="">
+		</div>
+		<div class="zmiti-policy">
+			<img src="./assets/images/zc.png" alt="">
+		</div>
 		<div class="zmiti-map-C" id="zmiti-map-C">
-			
+						
 		</div>
 	</div>
 
 	<script src="https://cdn.bootcss.com/vue/2.4.4/vue.js"></script>
 	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
-
+	<!-- 
+		<script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+		 -->
 
     <script src="http://webapi.amap.com/maps?v=1.4.1&key=2dbb2d18663da519b6de64c286eae1c7"></script>
     <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
