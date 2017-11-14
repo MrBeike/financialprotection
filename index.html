@@ -7,7 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="./assets/css/index.css">
 	<!-- <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/> -->
 	<script>
-		document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.clientWidth / 10 + 'px'
+		document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.clientWidth / 10 + 'px';
+		document.addEventListener('touchmove',function(e){e.preventDefault()},{passive:false})
 	</script>
 	<title>金融消保</title>
 </head>
@@ -23,26 +24,52 @@
 	</div>
 
 	<div id="zmiti-main-ui">
-		<zmiti-header>
-			<span>北京市</span>
-			<img src="./assets/images/ar.png" alt="">
-		</zmiti-header>
-		<div class="zmiti-title">
-			<span>消保地点</span>
-			<img src="./assets/images/title.png" />
-		</div>
+		<div class="zmiti-map-container lt-full " :class='tab==="map"?"":"left"'>
+			<zmiti-header>
+				<span slot='zmiti-title'>北京市</span>
+				<img  slot='zmiti-title' src="./assets/images/ar.png" alt="">
+			</zmiti-header>
+			<div class="zmiti-title">
+				<span>消保地点</span>
+				<img src="./assets/images/title.png" />
+			</div>
 
-		<div class="zmiti-pos">
-			<img src="./assets/images/position.png" alt="">
+			<zmiti-footer>
+				<img src="./assets/images/list-btn.png" alt="" slot='bottom-btn'/>
+			</zmiti-footer>
+			<div class="zmiti-map-C" id="zmiti-map-C">
+							
+			</div>
 		</div>
-		<div class="zmiti-list-btn">
-			<img src="./assets/images/list-btn.png" alt="">
-		</div>
-		<div class="zmiti-policy">
-			<img src="./assets/images/zc.png" alt="">
-		</div>
-		<div class="zmiti-map-C" id="zmiti-map-C">
-						
+		<div  class="zmiti-list-container lt-full" :class='tab === "list"?"":"right"'>
+			<zmiti-header>
+				<span slot='zmiti-title'>消保</span>
+				<img style="-webkit-transform:rotate(90deg)" src='./assets/images/ar.png' slot='zmiti-left-bar'/>
+			</zmiti-header>
+			<div class="zmiti-list-scroll-C" :style='{height:(viewH - 64 - 80 )+"px"}'>
+				<div>
+					<ul>
+						<li v-for='list in dataSource'>
+							<div>
+								<div class="zmiti-xb-logo">
+									<div><img :src="list.logo" alt=""></div>
+								</div>
+								<div class="zmiti-xb-info">
+									<h3 v-text='list.name'></h3>
+									<div><img src="./assets/images/ico-pos.png" alt="">地址: <span v-html='list.address'></span></div>
+									<div><img src="./assets/images/ico-tel.png" alt="">电话: <span v-html='list.tel'></span></div>
+									<div><img src="./assets/images/ico-nav.png" alt="">距离: <span v-html='list.dis'></span></div>
+								</div>
+							</div>
+							<div class="zmiti-xb-active">
+								<div>查看详情</div>
+								<div>导航</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<zmiti-footer tab='map' :is-need-bg='true' :is-show-pos-btn='false'></zmiti-footer>
 		</div>
 	</div>
 
@@ -54,8 +81,11 @@
 
     <script src="http://webapi.amap.com/maps?v=1.4.1&key=2dbb2d18663da519b6de64c286eae1c7"></script>
     <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
-	
+    <script src='./assets/js/iscroll.js'></script>
+	<!-- <script src="https://cdn.bootcss.com/iScroll/5.2.0/iscroll.min.js"></script> -->
 	<script>
+		window.PointerEvent = undefined;
+
 		function loadScript(src){
 			 var script = document.createElement('script');
 			 script.src = src+'?t='+new Date().getTime()

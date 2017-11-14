@@ -3,6 +3,38 @@
  */
 
 
+ function Obserable(){
+	this.handlers = {}
+}
+Obserable.prototype = {
+	on:function(type,handler){
+		this.handlers[type] =  this.handlers[type] || [];
+	
+		this.off(type);
+		this.handlers[type].push({handler,type});		
+	},
+	off:function(type){
+		this.handlers[type] && this.handlers[type] .forEach((item,i)=>{
+			if(item.type  ===  type){
+				this.handlers[type] .splice(i,1);
+			};
+		});
+	},
+	trigger:function(event){
+
+		if(!event.target){
+			event.target=this;
+		}
+		if(this.handlers[event.type] instanceof Array){
+            var handlers=this.handlers[event.type];//检出被观察者注册的观察者
+            for(var i=0,len=handlers.length;i<len;i++){
+               return handlers[i].handler(event.data);//回调函数执行，也就是观察者更新自己
+            }
+        }
+    }
+}
+
+
 
 var zmitiUtil = {
 
@@ -15,15 +47,16 @@ var zmitiUtil = {
 	},
 
 	initComponent:function(){
+		var s = this;
 		Vue.component("zmiti-header",{
 			template:'<header>\
 			<h2></h2>\
 			<div class="zmiti-header-C">\
 				<div class="zmiti-menu-bar">\
-					<img src="./assets/images/menu-bar.png"/>\
+					<slot name="zmiti-left-bar"><img src="./assets/images/menu-bar.png"/></slot>\
 				</div>\
 				<div class="zmiti-city">\
-					<slot></slot>\
+					<slot name="zmiti-title"></slot>\
 				</div>\
 				<div class="zmiti-search-btn">\
 					<img src="./assets/images/search-btn.png" alt="">\
@@ -31,26 +64,102 @@ var zmitiUtil = {
 			</div>\
 		</header>'
 		});
+
+		Vue.component("zmiti-footer",{
+			props:{
+				isShowPosBtn:{
+					type:Boolean,
+					default:true
+				},
+				isNeedBg:{
+					type:Boolean,
+					default:false
+				},
+				tab:{
+					type:String,
+					default:'list'
+				}
+			},
+			template:'<div class="zmiti-list-bottom" :class="isNeedBg?\'needbg\':\'\'" :style="{background:isNeedBg?\'#fff\':\'transparent\'}">\
+				<div class="zmiti-pos1">\
+					<img :style="{opacity:isShowPosBtn?1:0}" src="./assets/images/position.png" alt="">\
+				</div>\
+				<div class="zmiti-map-btn" @click="redirect(tab)">\
+					<slot name="bottom-btn"><img src="./assets/images/map-btn.png" alt=""></slot>\
+				</div>\
+				<div class="zmiti-policy1">\
+					<img src="./assets/images/zc.png" alt="">\
+				</div>\
+			</div>',
+			methods:{
+				redirect:function(type){
+					s.obserable.trigger({
+						type:'redirect',
+						data:type
+					})
+				}
+			}
+		})
 	},
+
 
 	init: function() {
 		var s = this;
 		var isAndroid = s.isAndroid();
 
+		this.obserable = new Obserable();
+
 		s.initComponent();
 		this.vue = new Vue({
 			el: '#zmiti-main-ui',
 			data: {
-
+				dataSource:[
+					{
+						id:"bjxb1",
+						logo:'./assets/images/xb-logo.png',
+						name:'中国人民银行',
+						address:'北京市昌平区北清路宣武门西大街97号新华社发行楼三层',
+						tel:'(86)010-42931212',
+						dis:'124m',
+						lng:'116.39',
+						lat:'40'//
+					}
+				],
+				viewH:document.documentElement.clientHeight,
+				tab:'map',//list:列表 map:地图
 			},
 			methods: {
-
+				redirect:function(type){
+					this.tab = type;
+				}
 			},
 			beforeCreate: function() {
 
 			},
 			created: function() {
+				for(var i = 2;i<10;i++){
+					this.dataSource.push({
+						id:"bjxb"+i,
+						logo:'./assets/images/xb-logo.png',
+						name:'中国人民银行',
+						address:'北京市昌平区北清路99号',
+						tel:'(86)010-42931212',
+						dis:(100+i*Math.random()*100|0)+'m',
+						lng:'116.39',
+						lat:'40'//
+					})	
+				}
+				setTimeout(function(){
+					var scroller = new IScroll('.zmiti-list-scroll-C',{
+						scrollbars:true
+					})
+				},100)
+				var _this = this;
 
+				s.obserable.on('redirect',function(data){
+
+					_this.redirect(data);
+				})
 			}
 		});
 
@@ -58,7 +167,7 @@ var zmitiUtil = {
 
 
 
-		this.bindMap();
+		//this.bindMap();
 
 
 
