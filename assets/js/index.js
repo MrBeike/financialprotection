@@ -77,15 +77,15 @@ var zmitiUtil = {
 				},
 				tab:{
 					type:String,
-					default:'list'
+					default:'/'
 				}
 			},
 			template:'<div class="zmiti-list-bottom" :class="isNeedBg?\'needbg\':\'\'" :style="{background:isNeedBg?\'#fff\':\'transparent\'}">\
 				<div class="zmiti-pos1">\
 					<img :style="{opacity:isShowPosBtn?1:0}" src="./assets/images/position.png" alt="">\
 				</div>\
-				<div class="zmiti-map-btn" @click="redirect(tab)">\
-					<slot name="bottom-btn"><img src="./assets/images/map-btn.png" alt=""></slot>\
+				<div class="zmiti-map-btn">\
+					<a v-link="{path:tab}"><slot name="bottom-btn"><img src="./assets/images/map-btn.png" alt=""></slot></a>\
 				</div>\
 				<div class="zmiti-policy1">\
 					<img src="./assets/images/zc.png" alt="">\
@@ -110,64 +110,31 @@ var zmitiUtil = {
 		this.obserable = new Obserable();
 
 		s.initComponent();
-		this.vue = new Vue({
-			el: '#zmiti-main-ui',
-			data: {
-				dataSource:[
-					{
-						id:"bjxb1",
-						logo:'./assets/images/xb-logo.png',
-						name:'中国人民银行',
-						address:'北京市昌平区北清路宣武门西大街97号新华社发行楼三层',
-						tel:'(86)010-42931212',
-						dis:'124m',
-						lng:'116.39',
-						lat:'40'//
-					}
-				],
-				viewH:document.documentElement.clientHeight,
-				tab:'map',//list:列表 map:地图
-			},
-			methods: {
-				redirect:function(type){
-					this.tab = type;
-				}
-			},
-			beforeCreate: function() {
 
+		var app = Vue.extend({});
+
+		var router = new VueRouter();
+
+		var mapApp = this.mapApp();
+
+		var listApp = this.listApp();
+
+		router.map({
+			'/':{
+				component:mapApp
 			},
-			created: function() {
-				for(var i = 2;i<10;i++){
-					this.dataSource.push({
-						id:"bjxb"+i,
-						logo:'./assets/images/xb-logo.png',
-						name:'中国人民银行',
-						address:'北京市昌平区北清路99号',
-						tel:'(86)010-42931212',
-						dis:(100+i*Math.random()*100|0)+'m',
-						lng:'116.39',
-						lat:'40'//
-					})	
-				}
-				setTimeout(function(){
-					var scroller = new IScroll('.zmiti-list-scroll-C',{
-						scrollbars:true
-					})
-				},100)
-				var _this = this;
-
-				s.obserable.on('redirect',function(data){
-
-					_this.redirect(data);
-				})
+			'/list':{
+				component:listApp
 			}
-		});
+		})
+
+		router.start(app,'#zmiti-main-ui');
 
 		this.bindEvent();
 
 
 
-		//this.bindMap();
+		
 
 
 
@@ -183,8 +150,10 @@ var zmitiUtil = {
 			zoom: 11,
 		});
 
+
 		this.loadMapUI(map);
 
+		return;
 
 		var mapObj = new AMap.Map('iCenter');
 		mapObj.plugin('AMap.Geolocation', function () {
@@ -223,6 +192,130 @@ var zmitiUtil = {
 
 	},
 
+	mapApp:function(){
+		var s = this;
+		return Vue.extend({
+			created:function(){
+				setTimeout(function(){
+
+					s.bindMap();
+				},100)
+			},
+			template:'<div transition="fadeOutLeft" class="zmiti-map-container lt-full ">\
+			<zmiti-header>\
+				<span slot=\'zmiti-title\'>北京市</span>\
+				<img  slot=\'zmiti-title\' src="./assets/images/ar.png" alt="">\
+			</zmiti-header>\
+			<div class="zmiti-title">\
+				<span>消保地点</span>\
+				<img src="./assets/images/title.png" />\
+			</div>\
+			<zmiti-footer tab="/list">\
+				<img src="./assets/images/list-btn.png" alt="" slot=\'bottom-btn\'/>\
+			</zmiti-footer>\
+			<div class="zmiti-map-C" id="zmiti-map-C">\
+			</div>\
+		</div>'
+		});
+	},
+
+	listApp:function(){
+		return Vue.extend({
+			data: {
+				dataSource:[
+					{
+						id:"bjxb1",
+						logo:'./assets/images/xb-logo.png',
+						name:'中国人民银行',
+						address:'北京市昌平区北清路宣武门西大街97号新华社发行楼三层',
+						tel:'(86)010-42931212',
+						dis:'124m',
+						lng:'116.39',
+						lat:'40'//
+					}
+				],
+				viewH:document.documentElement.clientHeight,
+				tab:'map',//list:列表 map:地图
+			},
+			data:function(){
+				return {
+					dataSource:[
+						{
+							id:"bjxb1",
+							logo:'./assets/images/xb-logo.png',
+							name:'中国人民银行',
+							address:'北京市昌平区北清路宣武门西大街97号新华社发行楼三层',
+							tel:'(86)010-42931212',
+							dis:'124m',
+							lng:'116.39',
+							lat:'40'//
+						}
+					],
+					viewH:document.documentElement.clientHeight,
+					tab:'map',//list:列表 map:地图		
+				}
+			},
+			methods: {
+				redirect:function(type){
+					this.tab = type;
+				}
+			},
+			beforeCreate: function() {
+
+			},
+			created: function() {
+				
+				for(var i = 2;i<10;i++){
+					this.dataSource.push({
+						id:"bjxb"+i,
+						logo:'./assets/images/xb-logo.png',
+						name:'中国人民银行',
+						address:'北京市昌平区北清路99号',
+						tel:'(86)010-42931212',
+						dis:(100+i*Math.random()*100|0)+'m',
+						lng:'116.39',
+						lat:'40'//
+					})	
+				}
+				setTimeout(function(){
+					var scroller = new IScroll('.zmiti-list-scroll-C',{
+						scrollbars:true
+					})
+				},1000);
+			},
+			template:'<div transition="fadeInLeft" class="zmiti-list-container lt-full" >\
+			<zmiti-header>\
+				<span slot="zmiti-title">消保</span>\
+				<a v-link="{path:\'/\'}" slot="zmiti-left-bar"><img style="-webkit-transform:rotate(90deg)" src="./assets/images/ar.png" /></a>\
+			</zmiti-header>\
+			<div class="zmiti-list-scroll-C" :style="{height:(this.viewH - 64 - 80 )+\'px\'}">\
+				<div>\
+					<ul>\
+						<li v-for="list in dataSource">\
+							<div>\
+								<div class="zmiti-xb-logo">\
+									<div><img :src="list.logo" alt=""></div>\
+								</div>\
+								<div class="zmiti-xb-info">\
+									<h3 v-text="list.name"></h3>\
+									<div><img src="./assets/images/ico-pos.png" alt="">地址: <span v-html="list.address"></span></div>\
+									<div><img src="./assets/images/ico-tel.png" alt="">电话: <div v-html="list.tel"></div></div>\
+									<div><img src="./assets/images/ico-nav.png" alt="">距离: <div v-html="list.dis"></div></div>\
+								</div>\
+							</div>\
+							<div class="zmiti-xb-active">\
+								<div>查看详情</div>\
+								<div>导航</div>\
+							</div>\
+						</li>\
+					</ul>\
+				</div>\
+			</div>\
+			<zmiti-footer tab="/" :is-need-bg=\'true\' :is-show-pos-btn=\'false\'></zmiti-footer>\
+		</div>'
+		})
+	},
+
 	loadMapUI: function(map) {
 
 		var s = this;
@@ -230,8 +323,6 @@ var zmitiUtil = {
 		AMapUI.loadUI(['overlay/SimpleMarker'], function(SimpleMarker) {
 
 			var lngLats = s.getGridLngLats(map.getCenter(), 5, 5);
-
-			console.log(lngLats)
 
 			new SimpleMarker({
 				iconLabel: '1',
@@ -361,7 +452,7 @@ $(function() {
 		zmitiUtil.init()
 		setTimeout(function() {
 			$('#zmiti-loading').remove();
-			zmitiUtil.vue.indexPageClass = 'active'
+			//zmitiUtil.vue.indexPageClass = 'active'
 		}, 500)
 	});
 })

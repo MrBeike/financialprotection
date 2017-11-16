@@ -281,14 +281,18 @@ $baseColor:#019cff;
 
               margin:14px 0;
               @include pos(r);
-              span{
+              div,span{
                 @include pos(r);
                 top: 0;
                 left: 0rem;
                 width: 5.6rem;
                 display: inline-block;
+                vertical-align: middle;
+              }
+              span{
                 vertical-align: top;
               }
+
               &:nth-of-type(1){
               }
             }
@@ -319,6 +323,29 @@ $baseColor:#019cff;
     }
   }
 }
+
+
+.outLeftInRight-transition,
+.fadeOutLeft-transition, 
+.fadeInLeft-transition {
+  @include transition_transform(.3s ease-in-out);
+}
+.fadeOutLeft-transition{
+ @include transition_transform(.3s ease-in-out); 
+}
+/* 进入时的状态，从右开始 */
+.outLeftInRight-enter,
+.fadeInLeft-enter,
+.fadeInLeft-leave {
+  @include transform(translateX(100%));
+}
+/* 离开时的状态，向左移动 */
+.outLeftInRight-leave,
+.fadeOutLeft-enter,
+.fadeOutLeft-leave {
+   @include transform(translateX(-100%));
+}
+
 
 #zmiti-map-C {
   width: 100%;

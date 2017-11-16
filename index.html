@@ -24,7 +24,8 @@
 	</div>
 
 	<div id="zmiti-main-ui">
-		<div class="zmiti-map-container lt-full " :class='tab==="map"?"":"left"'>
+		<router-view transition="anileft"></router-view>
+		<!-- <div class="zmiti-map-container lt-full " :class='tab==="map"?"":"left"'>
 			<zmiti-header>
 				<span slot='zmiti-title'>北京市</span>
 				<img  slot='zmiti-title' src="./assets/images/ar.png" alt="">
@@ -33,7 +34,7 @@
 				<span>消保地点</span>
 				<img src="./assets/images/title.png" />
 			</div>
-
+		
 			<zmiti-footer>
 				<img src="./assets/images/list-btn.png" alt="" slot='bottom-btn'/>
 			</zmiti-footer>
@@ -70,10 +71,11 @@
 				</div>
 			</div>
 			<zmiti-footer tab='map' :is-need-bg='true' :is-show-pos-btn='false'></zmiti-footer>
-		</div>
+		</div> -->
 	</div>
 
-	<script src="https://cdn.bootcss.com/vue/2.4.4/vue.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.12/vue.js"></script>
+	<script src='https://cdn.bootcss.com/vue-router/0.7.13/vue-router.min.js'></script>
 	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 	<!-- 
 		<script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
