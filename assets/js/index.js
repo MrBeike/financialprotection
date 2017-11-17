@@ -3,35 +3,38 @@
  */
 
 
- function Obserable(){
+function Obserable() {
 	this.handlers = {}
 }
 Obserable.prototype = {
-	on:function(type,handler){
-		this.handlers[type] =  this.handlers[type] || [];
-	
+	on: function(type, handler) {
+		this.handlers[type] = this.handlers[type] || [];
+
 		this.off(type);
-		this.handlers[type].push({handler,type});		
+		this.handlers[type].push({
+			handler,
+			type
+		});
 	},
-	off:function(type){
-		this.handlers[type] && this.handlers[type] .forEach((item,i)=>{
-			if(item.type  ===  type){
-				this.handlers[type] .splice(i,1);
+	off: function(type) {
+		this.handlers[type] && this.handlers[type].forEach((item, i) => {
+			if (item.type === type) {
+				this.handlers[type].splice(i, 1);
 			};
 		});
 	},
-	trigger:function(event){
+	trigger: function(event) {
 
-		if(!event.target){
-			event.target=this;
+		if (!event.target) {
+			event.target = this;
 		}
-		if(this.handlers[event.type] instanceof Array){
-            var handlers=this.handlers[event.type];//检出被观察者注册的观察者
-            for(var i=0,len=handlers.length;i<len;i++){
-               return handlers[i].handler(event.data);//回调函数执行，也就是观察者更新自己
-            }
-        }
-    }
+		if (this.handlers[event.type] instanceof Array) {
+			var handlers = this.handlers[event.type]; //检出被观察者注册的观察者
+			for (var i = 0, len = handlers.length; i < len; i++) {
+				return handlers[i].handler(event.data); //回调函数执行，也就是观察者更新自己
+			}
+		}
+	}
 }
 
 
@@ -46,10 +49,10 @@ var zmitiUtil = {
 		return isAndroid;
 	},
 
-	initComponent:function(){
+	initComponent: function() {
 		var s = this;
-		Vue.component("zmiti-header",{
-			template:'<header>\
+		Vue.component("zmiti-header", {
+			template: '<header>\
 			<h2></h2>\
 			<div class="zmiti-header-C">\
 				<div class="zmiti-menu-bar">\
@@ -65,22 +68,26 @@ var zmitiUtil = {
 		</header>'
 		});
 
-		Vue.component("zmiti-footer",{
-			props:{
-				isShowPosBtn:{
-					type:Boolean,
-					default:true
+		Vue.component("zmiti-footer", {
+			props: {
+				isShowPosBtn: {
+					type: Boolean,
+					default: true
 				},
-				isNeedBg:{
-					type:Boolean,
-					default:false
+				isNeedBg: {
+					type: Boolean,
+					default: false
 				},
-				tab:{
-					type:String,
-					default:'/'
+				tab: {
+					type: String,
+					default: '/'
+				},
+				className: {
+					type: String,
+					default: 'active'
 				}
 			},
-			template:'<div class="zmiti-list-bottom" :class="isNeedBg?\'needbg\':\'\'" :style="{background:isNeedBg?\'#fff\':\'transparent\'}">\
+			template: '<div class="zmiti-list-bottom" :class=[(this.isNeedBg?\'needbg\':\'\'),className] :style="{background:isNeedBg?\'#fff\':\'transparent\'}">\
 				<div class="zmiti-pos1">\
 					<img :style="{opacity:isShowPosBtn?1:0}" src="./assets/images/position.png" alt="">\
 				</div>\
@@ -91,11 +98,11 @@ var zmitiUtil = {
 					<img src="./assets/images/zc.png" alt="">\
 				</div>\
 			</div>',
-			methods:{
-				redirect:function(type){
+			methods: {
+				redirect: function(type) {
 					s.obserable.trigger({
-						type:'redirect',
-						data:type
+						type: 'redirect',
+						data: type
 					})
 				}
 			}
@@ -120,21 +127,17 @@ var zmitiUtil = {
 		var listApp = this.listApp();
 
 		router.map({
-			'/':{
-				component:mapApp
+			'/': {
+				component: mapApp
 			},
-			'/list':{
-				component:listApp
+			'/list': {
+				component: listApp
 			}
 		})
 
-		router.start(app,'#zmiti-main-ui');
+		router.start(app, '#zmiti-main-ui');
 
 		this.bindEvent();
-
-
-
-		
 
 
 
@@ -156,52 +159,52 @@ var zmitiUtil = {
 		return;
 
 		var mapObj = new AMap.Map('iCenter');
-		mapObj.plugin('AMap.Geolocation', function () {
-		    geolocation = new AMap.Geolocation({
-		        enableHighAccuracy: true,//是否使用高精度定位，默认:true
-		        timeout: 10000,          //超过10秒后停止定位，默认：无穷大
-		        maximumAge: 0,           //定位结果缓存0毫秒，默认：0
-		        convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
-		        showButton: true,        //显示定位按钮，默认：true
-		        buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
-		        buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-		        showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
-		        showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
-		        panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
-		        zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-		    });
-		    mapObj.addControl(geolocation);
-		    geolocation.getCurrentPosition();
-		    AMap.event.addListener(geolocation, 'complete', function(e){
-		    	console.log('success');
-		    	console.log(e);
-		    	$.ajax({
-		    		url:'http://api.zmiti.com/v2/msg/send_msg',
-		    		type:'post',
-		    		data:{
-		    			type:'xiaobao',
-		    			content:JSON.stringify(e),
-		    			to:''
-		    		}
-		    	})
-		    });//返回定位信息
-		    AMap.event.addListener(geolocation, 'error', function(){
-		    	console.log('error');
-		    });      //返回定位出错信息
+		mapObj.plugin('AMap.Geolocation', function() {
+			geolocation = new AMap.Geolocation({
+				enableHighAccuracy: true, //是否使用高精度定位，默认:true
+				timeout: 10000, //超过10秒后停止定位，默认：无穷大
+				maximumAge: 0, //定位结果缓存0毫秒，默认：0
+				convert: true, //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+				showButton: true, //显示定位按钮，默认：true
+				buttonPosition: 'LB', //定位按钮停靠位置，默认：'LB'，左下角
+				buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+				showMarker: true, //定位成功后在定位到的位置显示点标记，默认：true
+				showCircle: true, //定位成功后用圆圈表示定位精度范围，默认：true
+				panToLocation: true, //定位成功后将定位到的位置作为地图中心点，默认：true
+				zoomToAccuracy: true //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+			});
+			mapObj.addControl(geolocation);
+			geolocation.getCurrentPosition();
+			AMap.event.addListener(geolocation, 'complete', function(e) {
+				console.log('success');
+				console.log(e);
+				$.ajax({
+					url: 'http://api.zmiti.com/v2/msg/send_msg',
+					type: 'post',
+					data: {
+						type: 'xiaobao',
+						content: JSON.stringify(e),
+						to: ''
+					}
+				})
+			}); //返回定位信息
+			AMap.event.addListener(geolocation, 'error', function() {
+				console.log('error');
+			}); //返回定位出错信息
 		});
 
 	},
 
-	mapApp:function(){
+	mapApp: function() {
 		var s = this;
 		return Vue.extend({
-			created:function(){
-				setTimeout(function(){
+			created: function() {
+				setTimeout(function() {
 
 					s.bindMap();
-				},100)
+				}, 400)
 			},
-			template:'<div transition="fadeOutLeft" class="zmiti-map-container lt-full ">\
+			template: '<div transition="fadeOutLeft" class="zmiti-map-container lt-full ">\
 			<zmiti-header>\
 				<span slot=\'zmiti-title\'>北京市</span>\
 				<img  slot=\'zmiti-title\' src="./assets/images/ar.png" alt="">\
@@ -219,76 +222,66 @@ var zmitiUtil = {
 		});
 	},
 
-	listApp:function(){
+	listApp: function() {
 		return Vue.extend({
-			data: {
-				dataSource:[
-					{
-						id:"bjxb1",
-						logo:'./assets/images/xb-logo.png',
-						name:'中国人民银行',
-						address:'北京市昌平区北清路宣武门西大街97号新华社发行楼三层',
-						tel:'(86)010-42931212',
-						dis:'124m',
-						lng:'116.39',
-						lat:'40'//
-					}
-				],
-				viewH:document.documentElement.clientHeight,
-				tab:'map',//list:列表 map:地图
-			},
-			data:function(){
+			data: function() {
 				return {
-					dataSource:[
-						{
-							id:"bjxb1",
-							logo:'./assets/images/xb-logo.png',
-							name:'中国人民银行',
-							address:'北京市昌平区北清路宣武门西大街97号新华社发行楼三层',
-							tel:'(86)010-42931212',
-							dis:'124m',
-							lng:'116.39',
-							lat:'40'//
-						}
-					],
-					viewH:document.documentElement.clientHeight,
-					tab:'map',//list:列表 map:地图		
+					dataSource: [{
+						id: "bjxb1",
+						logo: './assets/images/xb-logo.png',
+						name: '中国人民银行',
+						address: '北京市昌平区北清路宣武门西大街97号新华社发行楼三层',
+						tel: '(86)010-42931212',
+						dis: '124m',
+						lng: '116.39',
+						lat: '40' //
+					}],
+					viewH: document.documentElement.clientHeight,
+					tab: 'map', //list:列表 map:地图,
+					bottomClass: 'hide'
 				}
 			},
 			methods: {
-				redirect:function(type){
-					this.tab = type;
+				listMove: function(e) {
+					this.startY = this.startY || 0;
+					if (e.changedTouches[0].pageY > this.startY) {
+						this.bottomClass = 'active'
+					} else {
+						this.bottomClass = 'hide'
+					}
+
+					this.startY = e.changedTouches[0].pageY;
 				}
 			},
 			beforeCreate: function() {
 
 			},
 			created: function() {
-				
-				for(var i = 2;i<10;i++){
+
+				for (var i = 2; i < 10; i++) {
 					this.dataSource.push({
-						id:"bjxb"+i,
-						logo:'./assets/images/xb-logo.png',
-						name:'中国人民银行',
-						address:'北京市昌平区北清路99号',
-						tel:'(86)010-42931212',
-						dis:(100+i*Math.random()*100|0)+'m',
-						lng:'116.39',
-						lat:'40'//
-					})	
-				}
-				setTimeout(function(){
-					var scroller = new IScroll('.zmiti-list-scroll-C',{
-						scrollbars:true
+						id: "bjxb" + i,
+						logo: './assets/images/xb-logo.png',
+						name: '中国人民银行',
+						address: '北京市昌平区北清路99号',
+						tel: '(86)010-42931212',
+						dis: (100 + i * Math.random() * 100 | 0) + 'm',
+						lng: '116.39',
+						lat: '40' //
 					})
-				},1000);
+				}
+				setTimeout(function() {
+					var scroller = new IScroll('.zmiti-list-scroll-C', {
+						scrollbars: true
+					})
+				}, 1000);
 			},
-			template:'<div transition="fadeInLeft" class="zmiti-list-container lt-full" >\
+			template: '<div @touchmove="listMove($event)" transition="fadeInLeft" class="zmiti-list-container lt-full" >\
 			<zmiti-header>\
 				<span slot="zmiti-title">消保</span>\
 				<a v-link="{path:\'/\'}" slot="zmiti-left-bar"><img style="-webkit-transform:rotate(90deg)" src="./assets/images/ar.png" /></a>\
 			</zmiti-header>\
-			<div class="zmiti-list-scroll-C" :style="{height:(this.viewH - 64 - 80 )+\'px\'}">\
+			<div class="zmiti-list-scroll-C" :style="{height:(this.viewH - 64)+\'px\'}">\
 				<div>\
 					<ul>\
 						<li v-for="list in dataSource">\
@@ -311,7 +304,7 @@ var zmitiUtil = {
 					</ul>\
 				</div>\
 			</div>\
-			<zmiti-footer tab="/" :is-need-bg=\'true\' :is-show-pos-btn=\'false\'></zmiti-footer>\
+			<zmiti-footer tab="/" :class-name=\'bottomClass\' :is-need-bg=\'true\' :is-show-pos-btn=\'false\'></zmiti-footer>\
 		</div>'
 		})
 	},
@@ -320,6 +313,7 @@ var zmitiUtil = {
 
 		var s = this;
 		this.map = map;
+
 		AMapUI.loadUI(['overlay/SimpleMarker'], function(SimpleMarker) {
 
 			var lngLats = s.getGridLngLats(map.getCenter(), 5, 5);

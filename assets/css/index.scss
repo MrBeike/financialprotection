@@ -81,207 +81,260 @@ $viewW: 10rem;
   }
 
 }
-$baseColor:#019cff;
+
+$baseColor: #019cff;
+
 #zmiti-main-ui {
   width: 100%;
   height: 100%;
 
-
-  header{
+  header {
     @include pos(a);
     left: 0;
     top: 0;
     width: 10rem;
     height: 64px;
     z-index: 100;
-    background:$baseColor;
-    h2{
+    background: $baseColor;
+
+    h2 {
       height: 20px;
     }
-    .zmiti-header-C{
+
+    .zmiti-header-C {
       height: 44px;
       line-height: 44px;
-      text-align:center;
+      text-align: center;
       width: 10rem;
-      &>div{
+
+      &>div {
         float: left;
       }
-      .zmiti-menu-bar,.zmiti-search-btn{
+
+      .zmiti-menu-bar, .zmiti-search-btn {
         width: 1.5rem;
-        img{
+
+        img {
           width: 1rem;
         }
-      }
-      .zmiti-city{
-        width: 7rem; 
-        
-        color:#fff;
-        font-size: .5rem;
-        img{width:20px;}
-      }
-    }
 
+      }
+
+      .zmiti-city {
+        width: 7rem;
+        color: #fff;
+        font-size: .5rem;
+
+        img {
+          width: 20px;
+        }
+
+      }
+
+    }
 
   }
 
-  .zmiti-pos,.zmiti-list-btn,.zmiti-policy{
+  .zmiti-pos, .zmiti-list-btn, .zmiti-policy {
     @include pos(f);
-    bottom:1rem;
+    bottom: 1rem;
     width: 1.3rem;
     z-index: 10;
   }
-  .zmiti-pos{
+
+  .zmiti-pos {
     left: 1rem;
   }
-  .zmiti-policy{
+
+  .zmiti-policy {
     right: 1rem;
   }
-  .zmiti-list-btn{
+
+  .zmiti-list-btn {
     left: 3.5rem;
     width: 3rem;
   }
 
-  .zmiti-title{
-      width: 5.6rem;
+  .zmiti-title {
+    width: 5.6rem;
+    @include pos(a);
+    top: 64px;
+    left: 2.2rem;
+    text-align: center;
+    z-index: 10;
+
+    span {
+      color: #fff;
       @include pos(a);
-      top: 64px;
-      left: 2.2rem;
-      text-align: center;
-      z-index: 10;
-      span{
-        color:#fff;
-        @include pos(a);
-        left: 50%;
-        @include transform(translate(-50%,0));
-        top: 3px;
-        letter-spacing:2px;
-        font-size: .6rem;
-      }
+      left: 50%;
+      @include transform(translate(-50%, 0));
+      top: 3px;
+      letter-spacing: 2px;
+      font-size: .6rem;
     }
-}
-.zmiti-map-container{
-  height: 100%;
-  z-index: 11;
-  @include transition(.3s);
-  &.left{
-    z-index: 10;
-    @include transition(.4s);
-    @include transform(translate(-10rem,0));
+
   }
+
 }
 
-.zmiti-list-container{
+.zmiti-map-container {
   height: 100%;
-  @include transform(translate(0,0));
-  @include transition(.3s);
   z-index: 11;
-  &.right{
+  @include transition(.3s);
+
+  &.left {
     z-index: 10;
     @include transition(.4s);
-    @include transform(translate(10rem,0));
+    @include transform(translate(-10rem, 0));
+  }
 
-    .zmiti-list-bottom{
-      &:before{
+}
+
+.zmiti-list-container {
+  height: 100%;
+  @include transform(translate(0, 0));
+  @include transition(.3s);
+  z-index: 11;
+
+  &.right {
+    z-index: 10;
+    @include transition(.4s);
+    @include transform(translate(10rem, 0));
+
+    .zmiti-list-bottom {
+      &:before {
         display: none;
       }
+
     }
+
   }
 
-  @at-root.zmiti-list-bottom{
+  @at-root.zmiti-list-bottom {
+    @include transition(.2s);
 
+    &.hide {
+      @include transform(translate(0, 99%));
+    }
 
+    &.active {
+      @include transform(translate(0, 0));
+    }
 
     @include pos(a);
     width: 10rem;
     height: 80px;
     left: 0;
-    bottom:0;
-    background:#fff;
+    bottom: 0;
+    background: #fff;
 
-    &.needbg{
-      &:before{
-        content:'';
+    &.needbg {
+      &:before {
+        content: '';
         @include pos(a);
         width: 100%;
         height: 100%;
         left: 0;
         top: 0;
         z-index: -1;
-        box-shadow:0 0 .2rem rgba(0,0,0,.2);
+        box-shadow: 0 0 .2rem rgba(0, 0, 0, .2);
       }
+
     }
-    z-index:10;
+
+    z-index: 10;
     @include displayBox(horizontal);
-    &>div{
+
+    &>div {
       @include pos(r);
-      &:nth-of-type(2){
+
+      &:nth-of-type(2) {
         width: 4rem;
       }
-      &:nth-of-type(3),&:nth-of-type(1){
+
+      &:nth-of-type(3), &:nth-of-type(1) {
         width: 3rem;
-        text-align:center;
-        img{
+        text-align: center;
+
+        img {
           width: 1rem;
         }
+
       }
+
     }
+
   }
 
-  .zmiti-list-scroll-C{
-    @include pos(a);  
+  .zmiti-list-scroll-C {
+    @include pos(a);
     overflow: hidden;
     top: 64px;
+    background: #f5f5f5;
 
-    background:#f5f5f5;
-    &>div{
-      padding-bottom:.2rem;
+    &>div {
+      padding-bottom: .2rem;
     }
-    li{
-      background:#fff;
-      margin:8px 0;
-      &:nth-of-type(1){
-        margin-top:0;
+
+    li {
+      background: #fff;
+      margin: 8px 0;
+
+      &:nth-of-type(1) {
+        margin-top: 0;
       }
-      h3{
+
+      h3 {
         margin-top: .5rem;
       }
+
       @include displayBox(vertical);
-      &>div{
-        &:nth-of-type(1){
-          
+
+      &>div {
+        &:nth-of-type(1) {
           @include displayBox(horizontal);
-          -webkit-box-align:start;
-          .zmiti-xb-logo{
+          -webkit-box-align: start;
+
+          .zmiti-xb-logo {
             width: 2rem;
             height: 2rem;
             @include br();
             margin-top: .2rem;
             text-align: right;
             @include pos(r);
-            div{
+
+            div {
               @include pos(a);
-              border:1px solid #f5f5f5;
+              border: 1px solid #f5f5f5;
               width: 1.4rem;
               height: 1.4rem;
               @include br();
               text-align: center;
               left: .3rem;
-              
             }
-            img{
-              margin-top: .3rem;
-              width:1.2rem;
-            }
-          }
-          .zmiti-xb-info{
-            width: 8rem;
-            img{width:.5rem;margin-right:10px;}
-            color:#535353;
-            &>div{
 
-              margin:14px 0;
+            img {
+              margin-top: .3rem;
+              width: 1.2rem;
+            }
+
+          }
+
+          .zmiti-xb-info {
+            width: 8rem;
+
+            img {
+              width: .5rem;
+              margin-right: 10px;
+            }
+
+            color: #535353;
+
+            &>div {
+              margin: 14px 0;
               @include pos(r);
-              div,span{
+
+              div, span {
                 @include pos(r);
                 top: 0;
                 left: 0rem;
@@ -289,63 +342,69 @@ $baseColor:#019cff;
                 display: inline-block;
                 vertical-align: middle;
               }
-              span{
+
+              span {
                 vertical-align: top;
               }
 
-              &:nth-of-type(1){
+              &:nth-of-type(1) {
               }
+
             }
+
           }
+
         }
 
-
-        &:nth-of-type(2){
-          &.zmiti-xb-active{
+        &:nth-of-type(2) {
+          &.zmiti-xb-active {
             @include displayBox(horizontal);
             height: 1.4rem;
             width: 10rem;
-            color:#ff7a4d;
+            color: #ff7a4d;
             font-size: .5rem;
             line-height: 1.4rem;
-            &>div{
-              -webkit-box-flex:1;
+
+            &>div {
+              -webkit-box-flex: 1;
               text-align: center;
-              border-top:1px solid #f5f5f5;
-              &:nth-of-type(1){
+              border-top: 1px solid #f5f5f5;
+
+              &:nth-of-type(1) {
                 margin-right: 1px solid #f5f5f5;
               }
 
             }
+
           }
+
         }
+
       }
+
     }
+
   }
+
 }
 
-
-.outLeftInRight-transition,
-.fadeOutLeft-transition, 
-.fadeInLeft-transition {
+.outLeftInRight-transition, .fadeOutLeft-transition, .fadeInLeft-transition {
   @include transition_transform(.3s ease-in-out);
 }
-.fadeOutLeft-transition{
- @include transition_transform(.3s ease-in-out); 
-}
-/* 进入时的状态，从右开始 */
-.outLeftInRight-enter,
-.fadeInLeft-enter,
-.fadeInLeft-leave {
-  @include transform(translateX(100%));
-}
-/* 离开时的状态，向左移动 */
-.outLeftInRight-leave,
-.fadeOutLeft-enter,
-.fadeOutLeft-leave {
-   @include transform(translateX(-100%));
+
+.fadeOutLeft-transition {
+  @include transition_transform(.3s ease-in-out);
 }
 
+/* 进入时的状态，从右开始 */
+.outLeftInRight-enter, .fadeInLeft-enter, .fadeInLeft-leave {
+  @include transform(translateX(100%));
+}
+
+/* 离开时的状态，向左移动 */
+.outLeftInRight-leave, .fadeOutLeft-enter, .fadeOutLeft-leave {
+  @include transform(translateX(-100%));
+}
 
 #zmiti-map-C {
   width: 100%;
